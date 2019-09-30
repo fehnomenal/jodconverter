@@ -177,7 +177,7 @@ public final class LocalOfficeUtils {
 
     // Assign default value if no pipe names or port numbers have been specified.
     if (portNumbers == null && pipeNames == null) {
-      return new OfficeUrl[] {new OfficeUrl(2002)};
+      return new OfficeUrl[] {new OfficeUrl("127.0.0.1", 2002)};
     }
 
     // Build the office URL list and return it
@@ -188,7 +188,7 @@ public final class LocalOfficeUtils {
         .ifPresent(stream -> stream.map(OfficeUrl::new).forEach(officeUrls::add));
     // We cannot do the same for an int[]
     if (portNumbers != null) {
-      Arrays.stream(portNumbers).forEach(portNumber -> officeUrls.add(new OfficeUrl(portNumber)));
+      Arrays.stream(portNumbers).forEach(portNumber -> officeUrls.add(new OfficeUrl("127.0.0.1", portNumber)));
     }
     return officeUrls.toArray(new OfficeUrl[0]);
   }

@@ -44,6 +44,8 @@ import org.jodconverter.task.OfficeTask;
  */
 public final class ExternalOfficeManager extends AbstractOfficeManager {
 
+  /** the default host name to connect to office. */
+  public static final String DEFAULT_HOST_NAME = "127.0.0.1";
   /** The default port number to connect to office. */
   public static final int DEFAULT_PORT_NUMBER = 2002;
   /** The default pipe name to connect to office. */
@@ -163,6 +165,7 @@ public final class ExternalOfficeManager extends AbstractOfficeManager {
 
     // OfficeProcessManager
     private OfficeConnectionProtocol connectionProtocol = OfficeConnectionProtocol.SOCKET;
+    private String hostName = DEFAULT_HOST_NAME;
     private int portNumber = DEFAULT_PORT_NUMBER;
     private String pipeName = DEFAULT_PIPE_NAME;
     private boolean connectOnStart = true;
@@ -188,8 +191,8 @@ public final class ExternalOfficeManager extends AbstractOfficeManager {
       final ExternalOfficeManager manager =
           new ExternalOfficeManager(
               connectionProtocol == OfficeConnectionProtocol.SOCKET
-                  ? new OfficeUrl(portNumber)
-                  : pipeName != null ? new OfficeUrl(pipeName) : new OfficeUrl(2002),
+                  ? new OfficeUrl(hostName, portNumber)
+                  : pipeName != null ? new OfficeUrl(pipeName) : new OfficeUrl("127.0.0.1", 2002),
               new ExternalOfficeManagerConfig(
                   workingDir, connectOnStart, connectTimeout, retryInterval));
       if (install) {
@@ -221,6 +224,18 @@ public final class ExternalOfficeManager extends AbstractOfficeManager {
 
       Validate.notBlank(pipeName, "The pipe name must not be blank");
       this.pipeName = pipeName;
+      return this;
+    }
+
+    /**
+     * Specifies the host name that will be used to communicate with office.
+     *
+     * @param hostName The host name to use
+     * @return This builder instance.
+     */
+    public Builder hostName(final String hostName){
+
+      this.hostName = hostName;
       return this;
     }
 

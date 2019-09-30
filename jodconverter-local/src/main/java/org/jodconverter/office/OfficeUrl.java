@@ -64,16 +64,19 @@ public class OfficeUrl {
   /**
    * Creates an UnoUrl for the specified port.
    *
+   * @param host The host.
    * @param port The port.
    * @return The created UnoUrl.
    */
-  /* default */ static UnoUrl socket(final int port) {
+  /* default */ static UnoUrl socket(final String host, final int port) {
 
     // Here we must use a try catch since OpenOffice and LibreOffice doesn't
     // have the same UnoUrl.parseUnoUrl signature
     try {
       return UnoUrl.parseUnoUrl(
-          "socket,host=127.0.0.1,port=" // NOSONAR
+          "socket,host=" // NOSONAR
+              + host
+              + ",port=" // NOSONAR
               + port
               + ",tcpNoDelay=1;urp;StarOffice.ServiceManager");
     } catch (Exception ex) { // NOSONAR
@@ -94,11 +97,12 @@ public class OfficeUrl {
   /**
    * Creates an OfficeUrl for the specified port.
    *
+   * @param host The host.
    * @param port The port.
    */
-  public OfficeUrl(final int port) {
+  public OfficeUrl(final String host, final int port) {
 
-    this.unoUrl = socket(port);
+    this.unoUrl = socket(host, port);
   }
 
   /**
