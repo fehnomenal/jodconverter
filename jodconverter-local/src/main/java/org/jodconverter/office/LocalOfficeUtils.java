@@ -335,7 +335,7 @@ public final class LocalOfficeUtils {
   public static String toUrl(final File file) {
 
     final String path = file.toURI().getRawPath();
-    final String url = path.startsWith("//") ? "file:" + path : "file://" + path;
+    final String url = path.startsWith("//") ? "private:" + path : "private://" + path;
     return url.endsWith("/") ? url.substring(0, url.length() - 1) : url;
   }
 
